@@ -1,12 +1,24 @@
 # Sberbank Data Science Journey 2018
 
-## Build:
+## Utility commands
+
+### Build:
 ```
 docker build . -t elenashrlq/sdsj
 docker push elenashrlq/sdsj
 ```
 
-## Classification:
+### Save as an archive:
+```
+docker save elenashrlq/sdsj:latest | gzip -c > elenashrlq_sdsj_v1.tar.gz
+```
+
+### Load an image from an archive:
+```
+docker load < elenashrlq_sdsj_v1.tar.gz
+```
+
+## Classification
 
 ### Local:
 ```
@@ -34,7 +46,7 @@ time docker run \
   Rscript --vanilla train.R --mode regression --train-csv /data/input/train.csv --model-dir /data/output/model
 ```
 
-## Prediction:
+## Prediction
 
 ### Local:
 ```
@@ -64,7 +76,7 @@ time docker run \
       Rscript --vanilla predict.R --test-csv /data/input/test.csv --model-dir /data/input/model --prediction-csv /data/output/prediction.csv
 ```
 
-## Estimation:
+## Estimation
 
 ### Local:
 ```
