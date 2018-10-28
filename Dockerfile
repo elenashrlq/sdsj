@@ -12,5 +12,7 @@ RUN ./rpkginstall optparse && \
 	./rpkginstall gbm && \
 	./rpkginstall bst
 
+RUN ./rpkginstall elasticnet
+
 ADD . /workspace_0001
 WORKDIR /workspace_0001
