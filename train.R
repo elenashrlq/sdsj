@@ -16,7 +16,7 @@ print(options$`model-dir`)
 
 source('src/auto_ml_model_docker.R')
 
-train_model <- auto_ml_model(file=options$`train-csv`, param_set=3)
+train_model <- auto_ml_model(file=options$`train-csv`, param_set=1)
 
 train_model_path <- file.path(options$`model-dir`, 'train_model.Rdata')
 
