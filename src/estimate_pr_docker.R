@@ -10,20 +10,17 @@ estimate_pr <- function(true_value_file_path, prediction_file_path, mode) {
 
   #-----выводим данные------------
   if (mode != 'classification') {
-    testMetric <- sqrt(sum((predictions$target -
-                              target_predictions_true)^2)/
-                         length(predictions$target))
+    a <- sum((prediction_data$target - target_predictions_true) ^ 2)
+    b <- length(prediction_data$target)
 
-    } else {
+    testMetric <- sqrt(a / b)
+  }
+  else {
+    a <- table(prediction_data$target, target_predictions_true)[1] + table(prediction_data$target, target_predictions_true)[4]
+    b <- sum(table(prediction_data$target, target_predictions_true)[1:4])
 
-    testMetric <- (table(prediction_data$target,
-                         target_predictions_true)[1]+
-                     table(prediction_data$target,
-                           target_predictions_true)[4])/
-      sum(table(prediction_data$target,
-                target_predictions_true)[1:4])
+    testMetric <- a / b
   }
 
-  list(testMetric=testMetric,
-       test2Metric=test2Metric)
+  testMetric
 }
