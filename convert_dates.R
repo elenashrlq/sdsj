@@ -1,4 +1,4 @@
-## меняем форматирование всех дат
+## РјРµРЅСЏРµРј С„РѕСЂРјР°С‚РёСЂРѕРІР°РЅРёРµ РІСЃРµС… РґР°С‚
 convert_dates <- function(x, date_feat=date_feat) {
   if (length(date_feat)>0) {
     a <- list()
