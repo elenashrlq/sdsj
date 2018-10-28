@@ -1,6 +1,6 @@
 params <- list(
-  a=list(cv=c(20,30,20,20,12),
-         method=c('lasso', 'bstTree', 'glm', 'gbm', 'rpart'),
+  a=list(cv=c(20,10,20,20,20),
+         method=c('lasso', 'glmnet', 'glm', 'gbm', 'rpart'),
          corlim=rep(.7,5)),
   b=list(cv=c(20,20,20,20,20),
          method=c('lasso', 'treebag', 'lasso', 'glm', 'nnet'),
