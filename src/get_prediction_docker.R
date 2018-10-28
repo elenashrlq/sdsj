@@ -1,30 +1,37 @@
 ## ???????? ???????????? (?? ?????? ????? ? ?????? ???????)
-get_pr <- function(file) {
+get_pr <- function(test_csv_file_path, model_dir, prediction_csv_file_path) {
   #-----?????????, ??????, ?????? ??????? ?????? --------------
   library(lubridate)
   library(dplyr)
   library(caret)
+  
+  source('src/convert_fac_to_bin.R')
+  source('src/convert_num_to_bin.R')
+  source('src/convert_dates.R')
+  source('src/add_seas_feat.R')
+  source('src/delete_na_cols.R')
 
-  test_1 <- read.csv(file,
+  test_1 <- read.csv(test_csv_file_path,
                      encoding = 'UTF-8',
                      na.strings=c("","NA"))
-  data_gov <- read.csv("data_gov_conv.csv")
+  data_gov <- read.csv("data/data_gov_conv.csv")
   
-  load('train_model.Rdata')
+  model_file_path <- file.path(model_dir, 'train_model.Rdata')
+  load(model_file_path)
+
   # ----??????????? ???????? ??????--------------------------
-  ##--test_merged <- merge(test_1, test_target_1)
+  
   test <- test_1
-  source('convert_fac_to_bin.R')
+  
   test <- convert_fac_to_bin(test, train_model$fac_binary_feat)
-  source('convert_num_to_bin.R')
+  
   test <- convert_num_to_bin(test, train_model$binary_feat1)
-  source('convert_dates.R')
+  
   test <- convert_dates(test, train_model$date_feat)
 
   # ----???????? ??????? ??????????--------------------------
   if (length(train_model$date_feat)>0){
     if (length(train_model$ts_feat)==1) {
-      source('add_seas_feat.R')
       test <- add_seas_feat(test, ts_feat=train_model$ts_feat, data_gov=data_gov)
       if (train_model$target_class=='binary') {
         season_predictions_test <- numeric(0)
@@ -104,7 +111,7 @@ get_pr <- function(file) {
       test_for_cat <- test[,-c(which(grepl('line_id', names(test))),
                                which(names(test) %in% train_model$date_feat))] ##!!???????? ????????? ?????????? date_feat
       test_for_cat <- predict(train_model$preobj_for_cat, test_for_cat)
-      source('delete_na_cols.R')
+      
       test_for_cat <- delete_na_cols(test_for_cat, train_model$na_var)
       test_for_cat <- test_for_cat[,-which(names(test_for_cat) %in% train_model$highCor)]
       test_for_cat <- predict(train_model$preobj_for_cat2, test_for_cat)
@@ -142,4 +149,9 @@ get_pr <- function(file) {
        random_predictions_test=random_predictions_test,
        cat_predictions_test=cat_predictions_test,
        target_predictions_test=target_predictions_test)
+
+  prediction_data = data.frame(line_id=test$line_id,
+                               target=target_predictions_test)
+  
+  write.csv(prediction_data, file = prediction_csv_file_path)
 }

@@ -9,4 +9,3 @@ params <- list(
          method=c('gbm', 'bstTree', 'glm', 'glm', 'svmRadial'),
          corlim=rep(.7,5))
 )
-

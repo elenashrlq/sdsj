@@ -1,9 +1,12 @@
-=Build:
+# Sberbank Data Science Journey 2018
+
+## Build:
 ```
 docker build . -t elenashrlq/sdsj
+docker push elenashrlq/sdsj
 ```
 
-=Classification:
+## Classification:
 ```
 docker run \
   -v /Users/drwg/Projects/_r/sdsj:/workspace_0001 \
@@ -12,21 +15,20 @@ docker run \
   -w /workspace_0001 \
   -e TIME_LIMIT=300 \
   --memory 12g \
+  --name solution_0001_train \
   elenashrlq/sdsj:latest \
   Rscript --vanilla train.R --mode classification --train-csv /data/input/train.csv --model-dir /data/output/model
 ```
---name solution_0019_train \
 
-
-=Prediction:
+## Prediction:
 
 ```
 docker run \
       -v /Users/drwg/Projects/_r/sdsj:/workspace_0001 \
-      -v /Users/drwg/sdsj_datasets/check_1_r/test.csv:/var/data/input/check_1_r/test.csv:ro \
-      -v /Users/drwg/sdsj_models:/var/data/input/model \
-      -v /Users/drwg/sdsj_output:/var/data/output \
-      -w /usr/src/sdjs_workspace \
+      -v /Users/drwg/sdsj_datasets/check_1_r/test.csv:/data/input/test.csv:ro \
+      -v /Users/drwg/sdsj_models:/data/input/model \
+      -v /Users/drwg/sdsj_output:/data/output \
+      -w /workspace_0001 \
       -e TIME_LIMIT=300 \
       --memory 12g \
       --name solution_0001_test \

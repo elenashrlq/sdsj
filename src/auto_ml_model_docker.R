@@ -1,22 +1,29 @@
 ## тренируем модель (на основе файла с данными для обучения)
 auto_ml_model <- function(file, param_set) {
-  #-----открываем, чистим, меняем форматы данных --------------
   library(lubridate)
   library(dplyr)
   library(caret)
+
+  source('src/params.R')
+  source('src/delete_na_cols.R')
+  source('src/convert_dates.R')
+  source('src/convert_num_to_bin.R')
+  source('src/convert_fac_to_bin.R')
+  source('src/add_seas_feat.R')
   
+  #-----открываем, чистим, меняем форматы данных --------------
   train_1 <- read.csv(file,
                       encoding = 'UTF-8',
                       na.strings=c("","NA"))
-  data_gov <- read.csv("data_gov_conv.csv")
+  data_gov <- read.csv("data/data_gov_conv.csv")
 
-  target_class=character()
-  zero_share=0
-  date_feat=character()
-  train_date=data_frame()
-  numeric_feat=character()
-  binary_feat1=character()
-  fac_feat1=character()
+  target_class = character()
+  zero_share = 0
+  date_feat = character()
+  train_date = data.frame()
+  numeric_feat = character()
+  binary_feat1 = character()
+  fac_feat1 = character()
   fac_binary_feat=character()
   id_feat=character()
   integer_feat=character()
@@ -33,8 +40,8 @@ auto_ml_model <- function(file, param_set) {
   best_for_random_bin_model=character()
   best_for_cat_model=character()
   combined_random_model=character()
-  model_for_random_fac=character()
-  train_for_random_fac=data_frame()
+  model_for_random_fac = character()
+  train_for_random_fac = data.frame()
   season_predictions=numeric()
   random_predictions=numeric()
   cat_predictions=numeric()
@@ -51,7 +58,7 @@ auto_ml_model <- function(file, param_set) {
 
   date_feat <- names(train)[grep('datetime_', names(train))]
 
-  source('convert_dates.R')
+  
   train <- convert_dates(train, date_feat)
 
   feat_classes <- sapply(train, class)
@@ -63,7 +70,6 @@ auto_ml_model <- function(file, param_set) {
 
   fac_binary_feat <- fac_feat1[sapply(train[fac_feat1], n_distinct)==2]
 
-  source('convert_fac_to_bin.R')
   train <- convert_fac_to_bin(train, fac_binary_feat)
 
   binary_feat1 <-
@@ -72,7 +78,6 @@ auto_ml_model <- function(file, param_set) {
         sapply(train[c(integer_feat,numeric_feat)],max, na.rm=T)==1 &
         sapply(train[c(integer_feat,numeric_feat)],min, na.rm=T)==0)]
 
-  source('convert_num_to_bin.R')
   train <- convert_num_to_bin(train, binary_feat1)
 
   binary_feat1 <- c(binary_feat1, fac_binary_feat)
@@ -113,7 +118,6 @@ auto_ml_model <- function(file, param_set) {
 
     ## если есть вр.ряды, добавляем сезонные переменные
     if (length(ts_feat)==1) {
-      source('add_seas_feat.R')
       train <- add_seas_feat(train, ts_feat=ts_feat, data_gov=data_gov)
 
       binary_feat <- c(binary_feat1, 'season_fac2', 'season_fac4', 'season_fac5')
@@ -383,7 +387,6 @@ auto_ml_model <- function(file, param_set) {
       t_train_for_cat <- data.frame(t(train_for_cat))
       na_var <- rownames(t_train_for_cat[!complete.cases(t_train_for_cat),])
 
-      source('delete_na_cols.R')
       train_for_cat <- delete_na_cols(train_for_cat, na_var)
 
       highCor <- findCorrelation(cor(train_for_cat[,which(
