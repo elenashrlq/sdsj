@@ -14,11 +14,11 @@ options = parse_args(parser, args = args)
 print(options$`mode`)
 print(options$`train-csv`)
 print(options$`model-dir`)
-print(options$`param-set`)
+## print(options$`param-set`) больше не нужен
 
 source('src/auto_ml_model_docker.R')
 
-train_model <- auto_ml_model(file=options$`train-csv`, param_set=options$`param-set`)
+train_model <- auto_ml_model(file=options$`train-csv`)
 
 train_model_path <- file.path(options$`model-dir`, 'train_model.Rdata')
 

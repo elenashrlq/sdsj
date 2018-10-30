@@ -1,5 +1,5 @@
 ## конвертируем числовые данные со значениями 0 и 1 в бинарные данные
-convert_num_to_bin <- function(x, binary_feat1=binary_feat1) {
-  x[binary_feat1] <- as.data.frame(sapply(x[binary_feat1], as.factor))
+convert_num_to_bin <- function(x, num_binary_feat=num_binary_feat) {
+  x[num_binary_feat] <- as.data.frame(sapply(x[num_binary_feat], as.factor))
   x
 }
