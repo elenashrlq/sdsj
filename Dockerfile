@@ -1,18 +1,22 @@
-FROM r-base:latest
+FROM svlentink/r-base-alpine:latest
+
+RUN apk add --update --no-cache R-dev libc-dev && rm -rf /var/cache/apk/*
 
 ADD ./rpkginstall rpkginstall
 
-RUN ./rpkginstall caret
+# RUN ./rpkginstall caret
 
-RUN ./rpkginstall optparse && \
-	./rpkginstall klaR && \
-	./rpkginstall glmnet && \
-	./rpkginstall dplyr && \
-	./rpkginstall lubridate && \
-	./rpkginstall gbm && \
-	./rpkginstall bst
+RUN ./rpkginstall optparse
+RUN ./rpkginstall lattice
+# RUN ./rpkginstall Matrix
+# RUN ./rpkginstall survival
+# RUN	./rpkginstall klaR
+# RUN ./rpkginstall glmnet
+# RUN ./rpkginstall dplyr
+# RUN ./rpkginstall lubridate
+# RUN ./rpkginstall gbm
+	# ./rpkginstall bst && \
+	# ./rpkginstall elasticnet
 
-RUN ./rpkginstall elasticnet
-
-ADD . /workspace_0001
-WORKDIR /workspace_0001
+ADD . /workspace
+WORKDIR /workspace
