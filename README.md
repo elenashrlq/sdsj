@@ -18,12 +18,12 @@ docker save elenashrlq/sdsj:latest | gzip -c > elenashrlq_sdsj_v1.tar.gz
 docker load < elenashrlq_sdsj_v1.tar.gz
 ```
 
-## Classification
+## Training
 
 ### Local:
 ```
-docker run \
-  -v /Users/drwg/Projects/_r/sdsj:/workspace_0001 \
+time docker run \
+  -v /Users/drwg/src/_r/sdsj:/workspace_0001 \
   -v /Users/drwg/sdsj_datasets/check_1_r/train.csv:/data/input/train.csv:ro \
   -v /Users/drwg/sdsj_models:/data/output/model \
   -w /workspace_0001 \
@@ -50,8 +50,8 @@ time docker run \
 
 ### Local:
 ```
-docker run \
-      -v /Users/drwg/Projects/_r/sdsj:/workspace_0001 \
+time docker run \
+      -v /Users/drwg/src/_r/sdsj:/workspace_0001 \
       -v /Users/drwg/sdsj_datasets/check_1_r/test.csv:/data/input/test.csv:ro \
       -v /Users/drwg/sdsj_models:/data/input/model \
       -v /Users/drwg/sdsj_output:/data/output \
@@ -80,8 +80,8 @@ time docker run \
 
 ### Local:
 ```
-docker run \
-      -v /Users/drwg/Projects/_r/sdsj:/workspace_0001 \
+time docker run \
+      -v /Users/drwg/src/_r/sdsj:/workspace_0001 \
       -v /Users/drwg/sdsj_datasets/check_1_r/test-target.csv:/data/input/test-target.csv:ro \
       -v /Users/drwg/sdsj_output:/data/output \
       -w /workspace_0001 \
@@ -94,10 +94,8 @@ docker run \
 ### Remote:
 ```
 time docker run \
-      -v /Users/drwg/Projects/_r/sdsj:/workspace_0001 \
-      -v /Users/drwg/sdsj_datasets/check_1_r/test-target.csv:/data/input/test-target.csv:ro \
-      -v /Users/drwg/sdsj_output:/data/output \
-      -w /workspace_0001 \
+      -v /root/datasets/check_1_r/test-target.csv:/data/input/test-target.csv:ro \
+      -v /root/output:/data/output \
       -e TIME_LIMIT=300 \
       --memory 12g \
       --cpuset-cpus 0-3 \
