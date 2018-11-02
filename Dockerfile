@@ -14,5 +14,9 @@ RUN ./rpkginstall optparse && \
 
 RUN ./rpkginstall elasticnet
 
-ADD . /workspace_0001
-WORKDIR /workspace_0001
+ENV WORKDIR=/workspace_0001
+ENV TMPDIR=$WORKDIR/tmp
+ENV TMP=$WORKDIR/tmp
+
+ADD . $WORKDIR
+WORKDIR $WORKDIR
