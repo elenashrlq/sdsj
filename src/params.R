@@ -4,12 +4,12 @@ params <- list(
            method=c('gbm', 'bstTree', 'glm', 'glm', 'nnet'),
            corlim=c(.7)),
 
-  two=list(cv=c(20,20,20,20,20),
-           method=c('gbm', 'treebag', 'glm', 'glm', 'nnet'),
-           corlim=c(.7)),
+  nine=list(cv=c(10,10,10,10,10),
+            method=c('gbm', 'treebag', 'glm', 'glm', 'rpart'),
+            corlim=c(.7)),
 
-  three=list(cv=c(8,8,8,8,8),
-             method=c('lasso', 'glmnet', 'glm', 'glm', 'rpart'),
+  three=list(cv=c(5,5,5,5,5),
+             method=c('lasso', 'glmnet', 'glm', 'glm', 'rpart'), ##можно заменить на 20
              corlim=c(.85)),
 
   four=list(cv=c(0,0,0,0,20),
@@ -26,10 +26,17 @@ params <- list(
 
   seven=list(cv=c(0,0,0,0,15),
              method=c('', '', '', '', 'lda'),
-             corlim=c(.75)),
+             corlim=c(.75)), ##можно заменить на .95
 
   eight=list(cv=c(0,0,0,0,15),
              method=c('', '', '', '', 'lda'),
-             corlim=c(.75))
-
+             corlim=c(.75)),
+  
+  nine=list(cv=c(10,10,10,10,10),
+            method=c('gbm', 'treebag', 'glm', 'glm', 'rpart'),
+            corlim=c(.7))
 )
+
+##two=list(cv=c(20,20,20,20,20),
+##         method=c('gbm', 'treebag', 'glm', 'glm', 'nnet'),
+##         corlim=c(.7)),

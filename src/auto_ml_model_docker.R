@@ -18,6 +18,9 @@ auto_ml_model <- function(file) {
                       na.strings=c("","NaN","NA"))
   data_gov <- read.csv("data/data_gov_conv.csv")
 
+  file_info <- file.info(file)
+  file_info_size <- file_info$size
+
   target_class=character()
   zero_share=0
   ts_feat=character()
@@ -136,20 +139,26 @@ auto_ml_model <- function(file) {
 
   # ----- выбираем параметры для тюнинга ----
   if (target_class=='binary') {
-    if (length(c(binary_feat_scr,numeric_feat_scr))*nrow(train)>20*10^6) {
-      param_set=7
-    } else {
+    if (file_info_size<290*10^6 & length(names(train_1))<200) {
       param_set=4
-    }
-  } else {
-    if (length(c(binary_feat_scr,numeric_feat_scr))*nrow(train)>5*10^6) {
-      param_set=3
     } else {
-      if (length(date_feat)>0) {
-        param_set=1
-      } else {
-        param_set=2
-      }
+      param_set=7
+    }
+  }
+
+  if (target_class!='binary' & length(date_feat)>0) {
+    if (file_info_size<200000) {
+      param_set=1
+    } else {
+      param_set=3
+    }
+  }
+
+  if (target_class!='binary' & length(date_feat)==0) {
+    if (file_info_size<2*10^6) {
+      param_set=2
+    } else {
+      param_set=9
     }
   }
   # ----- удаляем коррелирующие переменные ------
