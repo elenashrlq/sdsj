@@ -7,4 +7,5 @@ export TMP=$DIR/tmp
 echo $TMP
 mkdir -p $TMP
 
-Rscript --vanilla $@
+echo $TIME_LIMIT
+timeout $TIME_LIMIT Rscript --vanilla $@

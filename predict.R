@@ -2,7 +2,6 @@ suppressPackageStartupMessages(library("optparse"))
 
 parser <- OptionParser()
 
-parser <- add_option(parser, c("-m", "--mode"), default="classification", help="Script mode - classification or regression")
 parser <- add_option(parser, c("-p", "--prediction-csv"), help="Prediction CSV")
 parser <- add_option(parser, c("-s", "--test-csv"),  help="Test CSV")
 parser <- add_option(parser, c("-d", "--model-dir"), help="Model directory")
@@ -11,7 +10,6 @@ args <- commandArgs(trailingOnly=TRUE)
 
 options = parse_args(parser, args = args)
 
-print(options$`mode`)
 print(options$`prediction-csv`)
 print(options$`test-csv`)
 print(options$`model-dir`)

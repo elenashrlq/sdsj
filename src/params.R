@@ -8,7 +8,7 @@ params <- list(
            method=c('gbm', 'treebag', 'glm', 'glm', 'nnet'),
            corlim=c(.7)),
 
-  three=list(cv=c(8,10,10,10,8),
+  three=list(cv=c(8,8,8,8,8),
              method=c('lasso', 'glmnet', 'glm', 'glm', 'rpart'),
              corlim=c(.85)),
 

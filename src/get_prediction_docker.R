@@ -16,8 +16,64 @@ get_pr <- function(test_csv_file_path, model_dir, prediction_csv_file_path) {
                      na.strings=c("","NaN","NA"))
   data_gov <- read.csv("data/data_gov_conv.csv")
 
+  if (file.exists(prediction_csv_file_path)) {
+    file.remove(prediction_csv_file_path)
+  }
+
+  writeEmptyPrediction <- function() {
+    print('---')
+    print("Model loading failed. Writing empty prediction file")
+    print('---')
+
+    prediction_data = data.frame(
+      line_id=test_1$line_id,
+      prediction=rep(
+        0,
+        dim(test_1)[1]
+      )
+    )
+
+    write.csv(prediction_data, file = prediction_csv_file_path)
+
+    quit()
+
+    return(NULL)
+  }
+  
+  loadModelFromFile <- function(file_path) {
+      out <- tryCatch(
+          {
+              load(file_path)
+              return(train_model)
+          },
+          error=function(cond) {
+              message(paste("File does not seem to exist:", file_path))
+              message("Here's the original error message:")
+              message(cond)
+              writeEmptyPrediction()
+              return("error")
+          },
+          warning=function(cond) {
+              message(paste("File caused a warning:", file_path))
+              message("Here's the original warning message:")
+              message(cond)
+              writeEmptyPrediction()
+              return("warning")
+          },
+          finally={
+              message(paste("Processed File:", file_path))
+          }
+      )
+
+      return(out)
+  }
+
   model_file_path <- file.path(model_dir, 'train_model.Rdata')
-  load(model_file_path)
+  train_model <- loadModelFromFile(model_file_path)
+  
+  print('---')
+  print("Model loading ended")
+  print('---')
 
   season_predictions_test=numeric()
   random_predictions_for_num=numeric()
