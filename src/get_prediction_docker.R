@@ -181,7 +181,7 @@ get_pr <- function(test_csv_file_path, model_dir, prediction_csv_file_path) {
   else target_predictions_test=random_predictions_test
 
   prediction_data = data.frame(line_id=test$line_id,
-                               target=target_predictions_test)
+                               prediction=target_predictions_test)
 
   write.csv(prediction_data, file = prediction_csv_file_path)
 }

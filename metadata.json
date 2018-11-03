@@ -1,8 +1,8 @@
 {
-    "image": "elenashrlq/sdsj",
+    "image": "elenashrlq/sdsj:4_4",
     "entry_points": {
-        "train_classification": "Rscript --vanilla train.R --mode classification --train-csv {train_csv} --model-dir {model_dir}",
-        "train_regression": "Rscript --vanilla train.R --mode regression --train-csv {train_csv} --model-dir {model_dir}",
-        "predict": "Rscript --vanilla predict.R --test-csv {test_csv} --prediction-csv {prediction_csv} --model-dir {model_dir}"
+        "train_classification": "./run_rscript train.R --mode classification --train-csv {train_csv} --model-dir {model_dir}",
+        "train_regression": "./run_rscript train.R --mode regression --train-csv {train_csv} --model-dir {model_dir}",
+        "predict": "./run_rscript predict.R --test-csv {test_csv} --prediction-csv {prediction_csv} --model-dir {model_dir}"
     }
 }

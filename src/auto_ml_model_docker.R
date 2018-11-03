@@ -3,7 +3,7 @@ auto_ml_model <- function(file) {
   library(lubridate)
   library(dplyr)
   library(caret)
-  library(doParallel)
+  ##library(doParallel)
 
   source('src/params.R')
   source('src/delete_na_cols.R')
@@ -109,14 +109,14 @@ auto_ml_model <- function(file) {
                            which(names(train) %in% c(target, id_feat))
   )]
 
-  cl <- makePSOCKcluster(4)
-  registerDoParallel(cl)
+ ## cl <- makePSOCKcluster(4)
+ ## registerDoParallel(cl)
 
   preobj_prepr <- preProcess(train_prepr,
                              method=c('medianImpute', 'zv', 'nzv')
   )
 
-  registerDoSEQ()
+ ## registerDoSEQ()
 
   train_prepr <- predict(preobj_prepr, train_prepr)
 
@@ -274,8 +274,8 @@ auto_ml_model <- function(file) {
   # ---- строим модели для прогноза рандомности -----
   if (target_class=='numeric'|target_class=='integer') {
 
-    cl <- makePSOCKcluster(4)
-    registerDoParallel(cl)
+   ## cl <- makePSOCKcluster(4)
+   ## registerDoParallel(cl)
 
     ## ------ строим модель 1 для прогноза рандомности -----
     ## вычисляем рандоность, если таргет числовой
@@ -375,7 +375,7 @@ auto_ml_model <- function(file) {
     }
 
 
-    registerDoSEQ()
+    ##registerDoSEQ()
 
     ## ------строим обобщенную модель для прогноза рандомности-------------
     list_train_combined <- list(
@@ -443,8 +443,8 @@ auto_ml_model <- function(file) {
     levels(train_for_cat$target) <- c('zero_class', 'one_class')
 
     ## строим модель на основе обработанных данных
-    cl <- makePSOCKcluster(4)
-    registerDoParallel(cl)
+    ##cl <- makePSOCKcluster(4)
+    ##registerDoParallel(cl)
 
     best_for_cat_model <- train(target~.,
                                 data=train_for_cat,
@@ -456,7 +456,7 @@ auto_ml_model <- function(file) {
                                                        summaryFunction = twoClassSummary,
                                                        number = params[[param_set]]$cv[5]))
 
-    registerDoSEQ()
+    ##registerDoSEQ()
 
     cat_predictions <- predict(best_for_cat_model, train_for_cat)
 
